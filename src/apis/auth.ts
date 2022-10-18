@@ -7,3 +7,10 @@ export const signup = ({ email, password }: User) => {
     password,
   });
 };
+
+export const signin = ({ email, password }: User) => {
+  return instance.post("/auth/signin", {
+    email,
+    password,
+  });
+};
