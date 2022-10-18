@@ -5,6 +5,7 @@ import { signin } from "apis/auth";
 
 import styled from "styled-components";
 import { setToken } from "utils/token";
+import useRedirect from "hooks/useRedirect";
 
 const Page = styled.main`
   display: flex;
@@ -26,6 +27,8 @@ const ButtonBlock = styled.div`
 `;
 
 const SignIn = () => {
+  useRedirect();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);

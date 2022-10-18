@@ -1,4 +1,5 @@
 import { createTodo, getTodos } from "apis/todos";
+import useRedirect from "hooks/useRedirect";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoList from "./TodoList";
@@ -12,6 +13,8 @@ const Page = styled.main`
 `;
 
 const Todo = () => {
+  useRedirect();
+
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
