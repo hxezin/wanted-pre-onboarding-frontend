@@ -1,6 +1,7 @@
 import { signup } from "apis/auth";
-// import axios from "axios";
+import useValidate from "hooks/useValidate";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -20,20 +21,15 @@ const Form = styled.form`
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isValid, setIsValid] = useState(false);
-
-  const validityCheck = () => {
-    email.includes("@") && password.length >= 8
-      ? setIsValid(true)
-      : setIsValid(false);
-  };
+  const isValid = useValidate({ email, password });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await signup({ email, password })
       .then(() => {
-        console.log("회원가입 성공");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -43,15 +39,10 @@ const SignUp = () => {
   return (
     <Page>
       <Form onSubmit={handleSubmit}>
-        <input
-          placeholder="EMAIL"
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyUp={validityCheck}
-        />
+        <input placeholder="EMAIL" onChange={(e) => setEmail(e.target.value)} />
         <input
           placeholder="PASSWORD"
           onChange={(e) => setPassword(e.target.value)}
-          onKeyUp={validityCheck}
         />
         <button disabled={!isValid}>회원가입</button>
       </Form>

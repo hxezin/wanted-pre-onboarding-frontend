@@ -6,6 +6,7 @@ import { signin } from "apis/auth";
 import styled from "styled-components";
 import { setToken } from "utils/token";
 import useRedirect from "hooks/useRedirect";
+import useValidate from "hooks/useValidate";
 
 const Page = styled.main`
   display: flex;
@@ -31,22 +32,14 @@ const SignIn = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isValid, setIsValid] = useState(false);
-
+  const isValid = useValidate({ email, password });
   const navigate = useNavigate();
-
-  const validityCheck = () => {
-    email.includes("@") && password.length >= 8
-      ? setIsValid(true)
-      : setIsValid(false);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await signin({ email, password })
       .then((response) => {
-        console.log("로그인 성공");
         setToken(response.data.access_token);
         navigate("/todo");
       })
@@ -58,15 +51,10 @@ const SignIn = () => {
   return (
     <Page>
       <Form onSubmit={handleSubmit}>
-        <input
-          placeholder="EMAIL"
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyUp={validityCheck}
-        />
+        <input placeholder="EMAIL" onChange={(e) => setEmail(e.target.value)} />
         <input
           placeholder="PASSWORD"
           onChange={(e) => setPassword(e.target.value)}
-          onKeyUp={validityCheck}
         />
         <ButtonBlock>
           <button disabled={!isValid}>로그인</button>
