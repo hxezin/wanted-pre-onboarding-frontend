@@ -21,7 +21,8 @@ const Checkbox = styled.div<{ isCompleted: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  width: 10%;
+  max-width: 24px;
   height: 24px;
   border-radius: 50%;
   border: 1px solid #cb2d3e;
@@ -44,7 +45,7 @@ const TextBox = styled.div`
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 86%;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #cb2d3e;
