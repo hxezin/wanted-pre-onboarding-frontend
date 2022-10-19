@@ -1,22 +1,11 @@
 import { signup } from "apis/auth";
+import Button from "components/Button";
+import Card from "components/Card";
+import Input from "components/Input";
 import useValidate from "hooks/useValidate";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import styled from "styled-components";
-
-const Page = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  row-gap: 1em;
-`;
+import { Link, useNavigate } from "react-router-dom";
+import * as S from "./index.styled";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -37,16 +26,24 @@ const SignUp = () => {
   };
 
   return (
-    <Page>
-      <Form onSubmit={handleSubmit}>
-        <input placeholder="EMAIL" onChange={(e) => setEmail(e.target.value)} />
-        <input
-          placeholder="PASSWORD"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button disabled={!isValid}>회원가입</button>
-      </Form>
-    </Page>
+    <S.Page>
+      <Card>
+        <S.Header>Sign up</S.Header>
+        <S.Form onSubmit={handleSubmit}>
+          <Input text="EMAIL" onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            text="PASSWORD"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <S.ButtonBlock>
+            <Button disabled={!isValid}>회원가입</Button>
+            <Link to="/">
+              <Button>로그인</Button>
+            </Link>
+          </S.ButtonBlock>
+        </S.Form>
+      </Card>
+    </S.Page>
   );
 };
 

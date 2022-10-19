@@ -1,21 +1,14 @@
-import { createTodo, getTodos } from "apis/todos";
-import useRedirect from "hooks/useRedirect";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import TodoList from "./TodoList";
-
-const Page = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-`;
+import { getTodos } from "apis/todos";
+import useRedirect from "hooks/useRedirect";
+import { TodoType } from "types/todo";
+import * as S from "./index.styled";
+import Card from "components/Card";
+import TodoItem from "./TodoItem";
+import TodoForm from "./TodoForm";
 
 const Todo = () => {
   useRedirect();
-
-  const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -30,32 +23,23 @@ const Todo = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (todo.trim() === "") return;
-
-    await createTodo(todo)
-      .then(() => {
-        setTodo("");
-        getTodoList();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   return (
-    <Page>
-      <form onSubmit={handleSubmit}>
-        <input
-          autoFocus
-          onChange={(e) => setTodo(e.target.value)}
-          placeholder="Todo"
-        />
-        <button>추가</button>
-      </form>
-      <TodoList todos={todos} getTodoList={getTodoList} />
-    </Page>
+    <S.Page>
+      <Card width="600px" padding="2em 4em">
+        <TodoForm getTodoList={getTodoList} />
+        <S.TodoList>
+          {todos.map((todo: TodoType) => (
+            <TodoItem
+              key={todo.id}
+              id={todo.id}
+              todo={todo.todo}
+              isCompleted={todo.isCompleted}
+              getTodoList={getTodoList}
+            />
+          ))}
+        </S.TodoList>
+      </Card>
+    </S.Page>
   );
 };
 

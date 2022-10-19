@@ -3,29 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { signin } from "apis/auth";
 
-import styled from "styled-components";
+import * as S from "./index.styled";
 import { setToken } from "utils/token";
 import useRedirect from "hooks/useRedirect";
 import useValidate from "hooks/useValidate";
-
-const Page = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  row-gap: 1em;
-`;
-
-const ButtonBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  column-gap: 1em;
-`;
+import Card from "components/Card";
+import Input from "components/Input";
+import Button from "components/Button";
 
 const SignIn = () => {
   useRedirect();
@@ -49,21 +33,24 @@ const SignIn = () => {
   };
 
   return (
-    <Page>
-      <Form onSubmit={handleSubmit}>
-        <input placeholder="EMAIL" onChange={(e) => setEmail(e.target.value)} />
-        <input
-          placeholder="PASSWORD"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <ButtonBlock>
-          <button disabled={!isValid}>로그인</button>
-          <Link to="/signup">
-            <button>회원가입</button>
-          </Link>
-        </ButtonBlock>
-      </Form>
-    </Page>
+    <S.Page>
+      <Card>
+        <S.Header>Login</S.Header>
+        <S.Form onSubmit={handleSubmit}>
+          <Input text="EMAIL" onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            text="PASSWORD"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <S.ButtonBlock>
+            <Button disabled={!isValid}>로그인</Button>
+            <Link to="/signup">
+              <Button>회원가입</Button>
+            </Link>
+          </S.ButtonBlock>
+        </S.Form>
+      </Card>
+    </S.Page>
   );
 };
 
